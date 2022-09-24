@@ -1,4 +1,7 @@
 # nolitmaterial-ext
+
+Try the demo here:  https://wallabyway.github.io/nolitmaterial-ext/
+
 no lit material extension for forge viewer
 
 ![Screen Shot 2022-09-23 at 5 49 07 PM](https://user-images.githubusercontent.com/440241/192073280-d176fa23-f956-4fb9-ba42-e1091dc1015a.JPG)
