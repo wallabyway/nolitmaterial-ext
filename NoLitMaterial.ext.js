@@ -60,15 +60,36 @@ class NoLitMaterialExtension extends Autodesk.Viewing.Extension {
 	}
 
 	toggleCheckbox(e) {
-		const mm = this.viewer.impl.matman()._materials;
-		Object.keys(mm).map(a => {
-			if (e) {
-				localStorage.setItem(a, mm[a].reflectivity);
-				mm[a].reflectivity = 0;
-			} else {
-				mm[a].reflectivity = (localStorage.getItem(a));
-			}
-		})
+		const models = this.viewer.getVisibleModels();
+
+		for (const model of models) {
+			if (e && model.isConsolidated())
+				model.unconsolidate();
+
+			this.toggleMaterials(model, e);
+
+			if (!(e || model.isConsolidated()))
+				this.viewer.impl.consolidateModel(model);
+		}
+	}
+
+	toggleMaterials(model, noLit) {
+		const fragments = this.modelFragments.get(model.id);
+
+		if (!fragments)
+			return;
+
+		const replacementMap = noLit ? this.forwardMaterialReplacements : this.backwardMaterialReplacements;
+
+		const framentList = model.getFragmentList();
+
+		for (const fragId of fragments) {
+			const materialId = framentList.getMaterialId(fragId);
+
+			const targetMaterial = replacementMap.get(materialId);
+
+			framentList.setMaterial(fragId, targetMaterial);
+		}
 
 		this.viewer.impl.invalidate(true);
 	}
