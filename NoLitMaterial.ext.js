@@ -3,6 +3,7 @@ class NoLitMaterialExtension extends Autodesk.Viewing.Extension {
 	constructor(viewer, options) {
 		super(viewer, options);
 		this.viewer = viewer;
+		this.modelFragments = new Map();
 	}
 	async load() {
 		if (!this.viewer) return false;
@@ -16,6 +17,18 @@ class NoLitMaterialExtension extends Autodesk.Viewing.Extension {
 				e => { this.toggleCheckbox(e) }
 			);
 		}, { once: true });
+
+		this.viewer.addEventListener(Autodesk.Viewing.OBJECT_TREE_CREATED_EVENT, e => {
+			const model = e.model;
+
+			const fragments = [];
+
+			const instanceTree = model.getInstanceTree();
+
+			instanceTree.enumNodeFragments(instanceTree.getRootId(), x => { fragments.push(x) }, true);
+
+			this.modelFragments.set(model.id, fragments);
+		});
 		return true;
 	}
 
