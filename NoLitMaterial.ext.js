@@ -4,6 +4,8 @@ class NoLitMaterialExtension extends Autodesk.Viewing.Extension {
 		super(viewer, options);
 		this.viewer = viewer;
 		this.modelFragments = new Map();
+		this.forwardMaterialReplacements = new Map();
+		this.backwardMaterialReplacements = new Map();
 	}
 	async load() {
 		if (!this.viewer) return false;
@@ -18,6 +20,26 @@ class NoLitMaterialExtension extends Autodesk.Viewing.Extension {
 			instanceTree.enumNodeFragments(instanceTree.getRootId(), x => { fragments.push(x) }, true);
 
 			this.modelFragments.set(model.id, fragments);
+		});
+
+		this.viewer.addEventListener(Autodesk.Viewing.GEOMETRY_LOADED_EVENT, () => {
+			const matman = this.viewer.impl.matman();
+			const materials = matman._materials;
+
+			for (const key in materials) {
+				const material = materials[key];
+
+				if (this.forwardMaterialReplacements.has(material.id))
+					continue;
+
+				const replacedMaterial = material.clone();
+				replacedMaterial.reflectivity = 0;
+
+				matman.addMaterial(`${key}-fresnel-off`, replacedMaterial);
+
+				this.forwardMaterialReplacements.set(material.id, replacedMaterial.id);
+				this.backwardMaterialReplacements.set(replacedMaterial.id, material.id);
+			}
 		});
 
 		return true;
