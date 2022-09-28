@@ -20,8 +20,6 @@ class NoLitMaterialExtension extends Autodesk.Viewing.Extension {
 			instanceTree.enumNodeFragments(instanceTree.getRootId(), x => { fragments.push(x) }, true);
 
 			this.modelFragments.set(model.id, fragments);
-			this.viewer.navigation.toOrthographic();
-			this.viewer.setLightPreset(7);
 		});
 
 		this.viewer.addEventListener(Autodesk.Viewing.GEOMETRY_LOADED_EVENT, () => {
