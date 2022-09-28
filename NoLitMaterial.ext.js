@@ -20,6 +20,8 @@ class NoLitMaterialExtension extends Autodesk.Viewing.Extension {
 			instanceTree.enumNodeFragments(instanceTree.getRootId(), x => { fragments.push(x) }, true);
 
 			this.modelFragments.set(model.id, fragments);
+			this.viewer.navigation.toOrthographic();
+			this.viewer.setLightPreset(7);
 		});
 
 		this.viewer.addEventListener(Autodesk.Viewing.GEOMETRY_LOADED_EVENT, () => {
@@ -33,9 +35,10 @@ class NoLitMaterialExtension extends Autodesk.Viewing.Extension {
 					continue;
 
 				const replacedMaterial = material.clone();
-				replacedMaterial.reflectivity = 0;
-
+				
 				matman.addMaterial(`${key}-fresnel-off`, replacedMaterial);
+
+				replacedMaterial.reflectivity = 0;
 
 				this.forwardMaterialReplacements.set(material.id, replacedMaterial);
 				this.backwardMaterialReplacements.set(replacedMaterial.id, material);
