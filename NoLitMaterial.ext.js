@@ -37,8 +37,8 @@ class NoLitMaterialExtension extends Autodesk.Viewing.Extension {
 
 				matman.addMaterial(`${key}-fresnel-off`, replacedMaterial);
 
-				this.forwardMaterialReplacements.set(material.id, replacedMaterial.id);
-				this.backwardMaterialReplacements.set(replacedMaterial.id, material.id);
+				this.forwardMaterialReplacements.set(material.id, replacedMaterial);
+				this.backwardMaterialReplacements.set(replacedMaterial.id, material);
 			}
 		});
 
