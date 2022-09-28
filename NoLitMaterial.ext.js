@@ -8,16 +8,6 @@ class NoLitMaterialExtension extends Autodesk.Viewing.Extension {
 	async load() {
 		if (!this.viewer) return false;
 
-		this.viewer.addEventListener(Autodesk.Viewing.GEOMETRY_LOADED_EVENT, () => {
-			this.viewer.getSettingsPanel().addCheckbox(
-				"appearance",
-				"Fresnel Reflection",
-				"Turn off all fresnel reflection effects",
-				false,
-				e => { this.toggleCheckbox(e) }
-			);
-		}, { once: true });
-
 		this.viewer.addEventListener(Autodesk.Viewing.OBJECT_TREE_CREATED_EVENT, e => {
 			const model = e.model;
 
@@ -29,11 +19,22 @@ class NoLitMaterialExtension extends Autodesk.Viewing.Extension {
 
 			this.modelFragments.set(model.id, fragments);
 		});
+
 		return true;
 	}
 
 	unload() {
 		return true;
+	}
+
+	onToolbarCreated() {
+		this.viewer.getSettingsPanel().addCheckbox(
+			"appearance",
+			"Fresnel Reflection",
+			"Turn off all fresnel reflection effects",
+			false,
+			e => { this.toggleCheckbox(e) }
+		);
 	}
 
 	toggleCheckbox(e) {
