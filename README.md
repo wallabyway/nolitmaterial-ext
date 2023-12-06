@@ -1,5 +1,7 @@
 # nolitmaterial-ext
 
+Blog post: https://aps.autodesk.com/blog/fix-material-reflections-forge-viewer
+
 Try the demo here:  https://wallabyway.github.io/nolitmaterial-ext/
 
 no lit material extension for forge viewer
