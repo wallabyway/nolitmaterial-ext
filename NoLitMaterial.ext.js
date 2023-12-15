@@ -7,7 +7,7 @@ class NoLitMaterialExtension extends Autodesk.Viewing.Extension {
     async load() {
     	if (!this.viewer) return false;
 
-    	viewer.addEventListener(Autodesk.Viewing.GEOMETRY_LOADED_EVENT, () =>{
+    	this.viewer.addEventListener(Autodesk.Viewing.GEOMETRY_LOADED_EVENT, () =>{
 			this.viewer.getSettingsPanel().addCheckbox(
 				"appearance",
 				"Fresnel Reflection",
