@@ -1,4 +1,4 @@
-document.getElementById('cube-container').addEventListener('click', async () => {
+document.addEventListener('DOMContentLoaded', async () => {
   const THREE = await import('https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.module.js');
 
   const container = document.getElementById('cube-container');
