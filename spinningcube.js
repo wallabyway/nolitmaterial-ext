@@ -1,4 +1,4 @@
-document.addEventListener('DOMContentLoaded', async () => {
+setTimeout(async () => {
   const THREE = await import('https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.module.js');
 
   const container = document.getElementById('cube-container');
@@ -36,4 +36,4 @@ document.addEventListener('DOMContentLoaded', async () => {
     cube.rotation.y += 0.01;
     renderer.render(scene, camera);
   })();
-}, { once: true });
+}, 3000);
